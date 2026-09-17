@@ -5,19 +5,20 @@ const btnAdd = document.getElementById("btn-add") as HTMLButtonElement | null;
 const inpName = document.getElementById("inp-name",) as HTMLInputElement | null;
 const inpCategory = document.getElementById("inp-category",) as HTMLSelectElement | null;
 const inpDescription = document.getElementById("inp-description",) as HTMLInputElement | null;
+const inpTime = document.getElementById("inp-time",) as HTMLInputElement | null;
 
 const mainRecipeList = new RecipeList();
 
-if (btnAdd && inpName && inpCategory && inpDescription) {
+if (btnAdd && inpName && inpCategory && inpDescription && inpTime) {
   btnAdd.addEventListener("click", () => {
     const recipesErrorContainer = document.getElementById("add-recipes-error");
     const recipesError = document.getElementById("add-recipes-error-msg");
     try {
-      const newRecipe = new Recipe(inpName.value);
+      const newRecipe = new Recipe(inpName.value, parseInt(inpTime.value));
       newRecipe.category = inpCategory.value;
       newRecipe.description = inpDescription.value;
       mainRecipeList.add(newRecipe);
-      clearInputs(inpName, inpCategory, inpDescription);
+      clearInputs(inpName, inpCategory, inpDescription, inpTime);
       recipesErrorContainer?.classList.add("d-none");
       loadRecipeList(newRecipe);
       appendAlert(`${newRecipe.name} agregada correctamente!`, "success");
@@ -37,11 +38,13 @@ if (btnAdd && inpName && inpCategory && inpDescription) {
 function clearInputs(
   inpNameEl: HTMLInputElement,
   inpCategoryEl: HTMLSelectElement,
-  inpDescriptionEl: HTMLInputElement
+  inpDescriptionEl: HTMLInputElement,
+  inpTimeEl: HTMLInputElement
 ) {
   inpNameEl.value = "";
   inpCategoryEl.selectedIndex = 0;
   inpDescriptionEl.value = "";
+  inpTimeEl.value = "";
 }
 
 function loadRecipeList(newRecipe: Recipe) {
